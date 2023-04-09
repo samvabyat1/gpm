@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gpm/notif.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'balanc.dart';
@@ -37,6 +38,8 @@ class _HomeState extends State<Home> {
   var phone = '';
 
   var n = 0;
+  var title = [''];
+  var sub = [''];
 
   Future<void> initiatehome() async {
     final prefs = await SharedPreferences.getInstance();
@@ -82,7 +85,8 @@ class _HomeState extends State<Home> {
           if (int.parse(event.snapshot.child('ncount').value.toString()) > 0) {
             n = int.parse(event.snapshot.child('ncount').value.toString());
 
-            initnotif();
+            NotificationService().showNotification(
+                title: '₹${title[0]} recieved', body: 'From ${sub[0]}');
           }
         });
       }
@@ -94,11 +98,11 @@ class _HomeState extends State<Home> {
     super.initState();
 
     initiatehome();
+    initnotif();
     // _getCameraPermission();
   }
 
-  var title = [''];
-  var sub = [''];
+
   Future<void> initnotif() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -120,11 +124,6 @@ class _HomeState extends State<Home> {
         });
       }
     });
-
-    for (int i = 0; i < n; i++) {
-      NotificationService().showNotification(
-          title: '₹${title[i]} recieved', body: 'From ${sub[i]}');
-    }
 
     n = 0;
     DatabaseReference ref = FirebaseDatabase.instance
@@ -292,7 +291,10 @@ class _HomeState extends State<Home> {
                 height: 25,
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: '$phone@upim'));
+                  Fluttertoast.showToast(msg: 'UPI(M) id copied');
+                },
                 child: Container(
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.white70, width: 0.5),
@@ -640,7 +642,10 @@ class _HomeState extends State<Home> {
                               style: TextStyle(color: Colors.white70),
                             ),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: phone));
+                                  Fluttertoast.showToast(msg: 'Number copied');
+                                },
                                 child: Row(
                                   children: [
                                     Text(
@@ -662,7 +667,10 @@ class _HomeState extends State<Home> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               )),
-                          onPressed: () {},
+                          onPressed: () {
+                            Share.share(
+                                'Hello! check out a new design of PSM here 👉 https://github.com/samvabyat1/gpm');
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
@@ -703,9 +711,7 @@ class HomeIcon1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        NotificationService().showNotification(title: 'Hello', body: 'notif');
-      },
+      onTap: () {},
       child: Container(
         child: Column(
           children: [

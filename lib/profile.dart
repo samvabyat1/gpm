@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Profile extends StatelessWidget {
   final name;
@@ -213,7 +214,12 @@ class Profile extends StatelessWidget {
                                 style: TextStyle(color: Colors.white70),
                               ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: phone));
+                                    Fluttertoast.showToast(
+                                        msg: 'Number copied');
+                                  },
                                   child: Row(
                                     children: [
                                       Text(

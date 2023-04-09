@@ -1,16 +1,31 @@
-# gpm
 
-A new Flutter project.
+# GPM
 
-## Getting Started
+A new version of PSM with G Pay interface.
+## Screenshots
 
-This project is a starting point for a Flutter application.
+![App Screenshot](https://i.postimg.cc/mDFDC93F/Untitled.jpg)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Documentation
+
+[Install app](https://mega.nz/folder/sM5RkKKR#Jh78QN78gOBu9yAVod6A1w)
+
+
+## Tech Stack
+
+**Client:** Flutter, Android
+
+**Server:** Firebase
+
+
+## Support
+
+For support, email samvbyat1@gmail.com.
+
+
+## Authors
+
+- [@samvabyat1](https://github.com/samvabyat1)
+
