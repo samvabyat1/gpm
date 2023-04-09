@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
       _comingSms = comingSms!;
       Fluttertoast.showToast(
         msg: 'Scanning OTP',
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         textColor: Colors.white,
         backgroundColor: Colors.green[900],
       );
@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Home(),
+            builder: (context) => Details(),
           ));
     } else {
       Fluttertoast.showToast(

@@ -139,11 +139,13 @@ class _DoneState extends State<Done> {
       err = 1;
     }
 
-    if (err == 0) {
-      success();
-    } else {
-      failure();
-    }
+    Timer(Duration(milliseconds: 2000), () {
+      if (err == 0) {
+        success();
+      } else {
+        failure();
+      }
+    });
   }
 
   @override
@@ -183,7 +185,7 @@ class _DoneState extends State<Done> {
           );
           tagtext = Container(
             child: Text(
-              'Success',
+              'Paid',
               style: TextStyle(
                 color: Colors.green,
                 fontWeight: FontWeight.bold,

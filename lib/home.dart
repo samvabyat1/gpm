@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gpm/notif.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'balanc.dart';
@@ -34,6 +35,8 @@ class _HomeState extends State<Home> {
   var username = '?';
   var balance = 0;
   var phone = '';
+
+  var n = 0;
 
   Future<void> initiatehome() async {
     final prefs = await SharedPreferences.getInstance();
@@ -75,6 +78,12 @@ class _HomeState extends State<Home> {
           username = username.substring(0, username.indexOf(' '));
           isvisible = false;
           balance = int.parse(event.snapshot.child('bal').value.toString());
+
+          if (int.parse(event.snapshot.child('ncount').value.toString()) > 0) {
+            n = int.parse(event.snapshot.child('ncount').value.toString());
+
+            initnotif();
+          }
         });
       }
     });
@@ -86,6 +95,46 @@ class _HomeState extends State<Home> {
 
     initiatehome();
     // _getCameraPermission();
+  }
+
+  var title = [''];
+  var sub = [''];
+  Future<void> initnotif() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final refRE = FirebaseDatabase.instance
+        .ref()
+        .child(prefs.getString('phone').toString())
+        .child('trans')
+        .orderByKey();
+
+    refRE.onValue.listen((event) {
+      if (mounted) {
+        setState(() {
+          for (final child in event.snapshot.children) {
+            if (child.value.toString().split('#')[1] == '+') {
+              title.insert(0, child.value.toString().split('#')[2]);
+              sub.insert(0, child.value.toString().split('#')[0]);
+            }
+          }
+        });
+      }
+    });
+
+    for (int i = 0; i < n; i++) {
+      NotificationService().showNotification(
+          title: '₹${title[i]} recieved', body: 'From ${sub[i]}');
+    }
+
+    n = 0;
+    DatabaseReference ref = FirebaseDatabase.instance
+        .ref()
+        .child(prefs.getString('phone').toString());
+
+    final snapshotn = await ref.child('ncount').get();
+    int nc = int.parse(snapshotn.value.toString());
+
+    ref.child('ncount').set(0);
   }
 
   @override
@@ -654,7 +703,9 @@ class HomeIcon1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        NotificationService().showNotification(title: 'Hello', body: 'notif');
+      },
       child: Container(
         child: Column(
           children: [
