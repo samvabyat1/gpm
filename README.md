@@ -2,6 +2,9 @@
 # GPM
 
 A new version of PSM with G Pay interface.
+
+- Before trying this app, checkout 👉 [**PSM**](https://github.com/samvabyat1/psm)
+
 ## Screenshots
 
 ![App Screenshot](https://i.postimg.cc/mDFDC93F/Untitled.jpg)
